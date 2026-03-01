@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InferLoom | Bridge to Innovation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-black: #0a0a0a;
+            --secondary-black: #121212;
+            --accent-red: #e63946;
+            --light-red: #ff6b6b;
+            --dark-red: #c1121f;
+            --text-white: #f8f9fa;
+            --text-gray: #adb5bd;
+            --border-color: #2a2a2a;
+            --gradient-red: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+            --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-black);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-red);
+            border-radius: 2px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 36px;
+            background: var(--gradient-red);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .btn-outline:hover {
+            background: var(--gradient-red);
+            color: white;
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(42, 42, 42, 0.3);
+            padding: 20px 0;
+            transition: all 0.4s ease;
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-white);
+            text-decoration: none;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--accent-red);
+            margin-left: 5px;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-red);
+            transition: width 0.4s ease;
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-red);
+            transition: width 0.4s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-red);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 50px;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.8s;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 25px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 1.1s;
+        }
+
+        /* Animated background in hero */
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(230, 57, 70, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 20%;
+            left: 85%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(4) {
+            width: 250px;
+            height: 250px;
+            top: 70%;
+            left: 10%;
+            animation-delay: 6s;
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--secondary-black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-text {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 1s ease;
+        }
+
+        .about-text.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .about-text h2 {
+            color: var(--accent-red);
+        }
+
+        .stats {
+            display: flex;
+            margin-top: 40px;
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .stat-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-item:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .stat-item:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent-red);
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background: var(--gradient-dark);
+            padding: 40px 30px;
+            border-radius: 12px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(42, 42, 42, 0.5);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent-red);
+            box-shadow: 0 15px 30px rgba(230, 57, 70, 0.15);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(230, 57, 70, 0.05), transparent);
+            transition: left 0.7s;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            color: var(--accent-red);
+            margin-bottom: 25px;
+            display: inline-block;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .team-member {
+            text-align: center;
+            background: var(--gradient-dark);
+            padding: 40px 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(42, 42, 42, 0.5);
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .team-member.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-red);
+            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.1);
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            background: var(--gradient-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: var(--accent-red);
+            border: 3px solid var(--accent-red);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(230, 57, 70, 0.2), transparent);
+            transition: left 0.7s;
+        }
+
+        .team-member:hover .member-photo::before {
+            left: 100%;
+        }
+
+        /* Clients Section */
+        .clients {
+            background-color: var(--secondary-black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clients-carousel {
+            position: relative;
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .client-logos {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scroll 40s linear infinite;
+        }
+
+        .client-logo {
+            min-width: 250px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.03);
+            margin: 0 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-gray);
+            border: 1px solid rgba(42, 42, 42, 0.5);
+            transition: all 0.4s ease;
+        }
+
+        .client-logo:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Games Section */
+        .games {
+            background-color: var(--secondary-black);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .game-card {
+            background: var(--gradient-dark);
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(42, 42, 42, 0.5);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .game-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .game-card:hover {
+            border-color: var(--accent-red);
+        }
+
+        .game-title {
+            color: var(--accent-red);
+            margin-bottom: 20px;
+        }
+
+        .game-area {
+            height: 250px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(42, 42, 42, 0.5);
+        }
+
+        .click-logo {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-red);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            cursor: pointer;
+            position: absolute;
+            user-select: none;
+            transition: transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        .click-logo:active {
+            transform: scale(0.9);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 18px 20px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(42, 42, 42, 0.7);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-red);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+        }
+
+        .contact-form textarea {
+            height: 180px;
+            resize: vertical;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 35px;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .contact-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-item:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .contact-item:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+
+        .contact-item:nth-child(4) {
+            transition-delay: 0.6s;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(230, 57, 70, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: var(--accent-red);
+            font-size: 24px;
+            flex-shrink: 0;
+            border: 1px solid rgba(230, 57, 70, 0.2);
+        }
+
+        /* AI Chatbot */
+        .ai-chatbot {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 999;
+        }
+
+        .chatbot-toggle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--gradient-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.3);
+            font-size: 28px;
+            transition: all 0.4s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(230, 57, 70, 0.4);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 90px;
+            right: 0;
+            width: 380px;
+            height: 550px;
+            background: var(--gradient-dark);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            border: 1px solid rgba(42, 42, 42, 0.7);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.4s ease;
+        }
+
+        .chatbot-window.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .chatbot-header {
+            background: var(--gradient-red);
+            padding: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            border-radius: 20px;
+            max-width: 85%;
+            animation: messageAppear 0.3s ease;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .bot-message {
+            background: rgba(230, 57, 70, 0.1);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            border: 1px solid rgba(230, 57, 70, 0.2);
+        }
+
+        .user-message {
+            background: rgba(255, 255, 255, 0.1);
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chatbot-input {
+            padding: 20px;
+            border-top: 1px solid rgba(42, 42, 42, 0.7);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(42, 42, 42, 0.7);
+            border-radius: 30px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .chatbot-input input:focus {
+            outline: none;
+            border-color: var(--accent-red);
+        }
+
+        .chatbot-input button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-red);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-input button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Typing animation for chatbot */
+        .typing-indicator {
+            display: flex;
+            padding: 10px 20px;
+            background: rgba(230, 57, 70, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(230, 57, 70, 0.2);
+            align-self: flex-start;
+            margin-bottom: 20px;
+            width: 60px;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            margin: 0 3px;
+            opacity: 0.4;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation: typing 1.5s infinite;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation: typing 1.5s infinite 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation: typing 1.5s infinite 0.4s;
+        }
+
+        /* Footer */
+        footer {
+            background: #050505;
+            padding: 80px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(42, 42, 42, 0.5);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-red);
+            transition: width 0.4s ease;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-red);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-size: 20px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(42, 42, 42, 0.5);
+        }
+
+        .social-icons a:hover {
+            background: var(--gradient-red);
+            color: white;
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+        }
+
+        .copyright {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(42, 42, 42, 0.5);
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-30px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(20px) rotate(240deg);
+            }
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(230, 57, 70, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typing {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--accent-red);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-red); }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .contact-container {
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 300px;
+                height: 100vh;
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 100px;
+                transition: right 0.5s ease;
+                z-index: 1000;
+                border-left: 1px solid rgba(42, 42, 42, 0.5);
+            }
+            
+            nav ul.active {
+                right: 0;
+            }
+            
+            nav ul li {
+                margin: 20px 0;
+            }
+            
+            .chatbot-window {
+                width: 320px;
+                right: -20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .client-logo {
+                min-width: 200px;
+                height: 100px;
+            }
+            
+            .ai-chatbot {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .chatbot-toggle {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Header -->
+    <header id="mainHeader">
+        <div class="container header-container">
+            <a href="#" class="logo">INFER<span>LOOM</span></a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul id="mainMenu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <div class="floating-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+            </div>
+        </div>
+        
+        <div class="container hero-content">
+            <h1 id="typed-text"></h1>
+            <p>InferLoom bridges ideas and technology to deliver powerful web, mobile, and AI solutions that transform businesses and drive growth in the digital era.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn" id="getQuoteBtn">Get a Quote</a>
+                <a href="#" class="btn btn-outline" id="openChatbot">Talk to Our AI Assistant</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section-padding" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text" id="aboutText">
+                    <h2 class="section-title">About InferLoom</h2>
+                    <p>InferLoom is a professional software development company focused on delivering high-quality digital solutions. We specialize in mobile application development, website development, custom software, and AI-powered systems.</p>
+                    <p>Our mission is to bridge innovation with real-world business needs. With a team of experienced developers, designers, and technology leaders, we have successfully delivered 7–8 projects to satisfied clients across different industries.</p>
+                    <p>We believe in quality, creativity, and customer satisfaction, ensuring every project exceeds expectations and delivers measurable results.</p>
+                    
+                    <div class="stats">
+                        <div class="stat-item" id="stat1">
+                            <div class="stat-number">8+</div>
+                            <div>Projects Delivered</div>
+                        </div>
+                        <div class="stat-item" id="stat2">
+                            <div class="stat-number">100%</div>
+                            <div>Client Satisfaction</div>
+                        </div>
+                        <div class="stat-item" id="stat3">
+                            <div class="stat-number">24/7</div>
+                            <div>Support Available</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image">
+                    <div style="background: rgba(230, 57, 70, 0.05); padding: 40px; border-radius: 12px; border-left: 4px solid var(--accent-red); backdrop-filter: blur(10px);">
+                        <h3 style="color: var(--accent-red); margin-bottom: 20px; font-size: 1.8rem;">Our Mission</h3>
+                        <p style="margin-bottom: 30px;">To bridge the gap between innovative ideas and practical technology solutions, empowering businesses to thrive in the digital landscape through cutting-edge software and AI integration.</p>
+                        <h3 style="color: var(--accent-red); margin-bottom: 20px; font-size: 1.8rem;">Our Vision</h3>
+                        <p>To become the leading technology partner for businesses seeking transformative digital solutions that drive growth, efficiency, and competitive advantage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services section-padding" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card" id="service1">
+                    <div class="service-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile App Development</h3>
+                    <p>We build fast, secure, and user-friendly mobile applications for Android and iOS using the latest technologies and best practices.</p>
+                </div>
+                
+                <div class="service-card" id="service2">
+                    <div class="service-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Web Development</h3>
+                    <p>Modern, responsive, and professional websites tailored to your business needs with optimal performance and user experience.</p>
+                </div>
+                
+                <div class="service-card" id="service3">
+                    <div class="service-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Custom Software</h3>
+                    <p>Powerful software solutions designed specifically for your business needs to streamline operations and enhance productivity.</p>
+                </div>
+                
+                <div class="service-card" id="service4">
+                    <div class="service-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Solutions</h3>
+                    <p>Smart chatbots, automation tools, and AI-powered features that bring intelligent solutions to your business challenges.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team section-padding" id="team">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Team</h2>
+            </div>
+            <div class="team-grid">
+                <div class="team-member" id="member1">
+                    <div class="member-photo">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Alex Morgan</h3>
+                    <p style="color: var(--accent-red); font-weight: 700;">CEO - Vision Leader</p>
+                    <p>With 15+ years in tech leadership, Alex drives the company's vision and strategic direction.</p>
+                </div>
+                
+                <div class="team-member" id="member2">
+                    <div class="member-photo">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Sarah Chen</h3>
+                    <p style="color: var(--accent-red); font-weight: 700;">CTO - Technology Expert</p>
+                    <p>Sarah leads our technical teams with expertise in AI, cloud computing, and software architecture.</p>
+                </div>
+                
+                <div class="team-member" id="member3">
+                    <div class="member-photo">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Michael Rodriguez</h3>
+                    <p style="color: var(--accent-red); font-weight: 700;">Chairman - Business Strategist</p>
+                    <p>Michael provides strategic guidance and ensures alignment between technology and business goals.</p>
+                </div>
+                
+                <div class="team-member" id="member4">
+                    <div class="member-photo">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Development Team</h3>
+                    <p style="color: var(--accent-red); font-weight: 700;">Skilled Software Engineers</p>
+                    <p>Our talented developers bring ideas to life with clean code, innovative solutions, and attention to detail.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="clients section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Clients</h2>
+            </div>
+            <div class="clients-carousel">
+                <div class="client-logos">
+                    <div class="client-logo">TECHNOVA</div>
+                    <div class="client-logo">INNOVATEK</div>
+                    <div class="client-logo">GLOBAL SOLUTIONS</div>
+                    <div class="client-logo">DATAFLOW</div>
+                    <div class="client-logo">CYBERNETICS</div>
+                    <div class="client-logo">FUTURE CORP</div>
+                    <div class="client-logo">TECHNOVA</div>
+                    <div class="client-logo">INNOVATEK</div>
+                    <div class="client-logo">GLOBAL SOLUTIONS</div>
+                    <div class="client-logo">DATAFLOW</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="games section-padding" id="games">
+        <div class="container">
+            <div class="section-title">
+                <h2>Interactive Games</h2>
+            </div>
+            <p style="text-align: center; margin-bottom: 60px; max-width: 800px; margin-left: auto; margin-right: auto; font-size: 1.1rem;">Take a break and try our lightweight games designed for fun and engagement.</p>
+            
+            <div class="games-grid">
+                <div class="game-card" id="gameCard1">
+                    <h3 class="game-title">Click the Infer Logo</h3>
+                    <p>Click the moving logo as many times as you can in 30 seconds!</p>
+                    <div class="game-area" id="clickGameArea">
+                        <div id="clickScore" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;">Score: 0</div>
+                        <div id="clickTimer" style="font-size: 1.2rem; color: var(--accent-red); font-weight: 600;">Time: 30s</div>
+                        <div class="click-logo" id="clickLogo">IL</div>
+                    </div>
+                    <button class="btn" id="startClickGame">Start Game</button>
+                </div>
+                
+                <div class="game-card" id="gameCard2">
+                    <h3 class="game-title">Color Catch Game</h3>
+                    <p>Catch red shapes while avoiding others. Use arrow keys to move.</p>
+                    <div class="game-area" id="catchGameArea">
+                        <div id="catchScore" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;">Score: 0</div>
+                        <div id="catchLives" style="font-size: 1.2rem; color: var(--accent-red); font-weight: 600;">Lives: 3</div>
+                        <div id="player" style="width: 40px; height: 40px; background: var(--gradient-red); position: absolute; bottom: 20px; left: 155px; border-radius: 8px; box-shadow: 0 5px 15px rgba(230, 57, 70, 0.5);"></div>
+                    </div>
+                    <button class="btn" id="startCatchGame">Start Game</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact section-padding" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <input type="text" placeholder="Subject">
+                        <textarea placeholder="Your Message" required></textarea>
+                        <button type="submit" class="btn" id="submitFormBtn">Send Message</button>
+                    </form>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item" id="contactItem1">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>contact@inferloom.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" id="contactItem2">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" id="contactItem3">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Address</h3>
+                            <p>123 Innovation Drive, Tech City, TC 10001</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" id="contactItem4">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h3>Working Hours</h3>
+                            <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Chatbot -->
+    <div class="ai-chatbot">
+        <div class="chatbot-toggle" id="chatbotToggle">
+            <i class="fas fa-robot"></i>
+        </div>
+        
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <i class="fas fa-robot"></i> InferBot - Your AI Assistant
+            </div>
+            
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    Hello 👋 Welcome to InferLoom! How can I help you today?
+                </div>
+            </div>
+            
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <a href="#" class="logo" style="font-size: 32px; margin-bottom: 30px; display: inline-block;">INFER<span>LOOM</span></a>
+            <p style="color: var(--text-gray); max-width: 700px; margin: 0 auto 40px; font-size: 1.1rem;">Bridge to Innovation - Transforming businesses with cutting-edge software and AI solutions.</p>
+            
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#team">Team</a>
+                <a href="#games">Games</a>
+                <a href="#contact">Contact</a>
+            </div>
+            
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 InferLoom. All rights reserved. | Bridge to Innovation
+            </div>
+        </div>
+    </footer>
+
+    <!-- Particles.js library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#e63946" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#e63946",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+            
+            // Typewriter effect for hero text
+            const typedText = document.getElementById('typed-text');
+            const text = "Building Smart Digital Solutions with AI Innovation";
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < text.length) {
+                    typedText.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                } else {
+                    // Add cursor blink after typing
+                    typedText.classList.add('typewriter');
+                }
+            }
+            
+            // Start typing after a short delay
+            setTimeout(typeWriter, 800);
+            
+            // Header scroll effect
+            const header = document.getElementById('mainHeader');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Scroll animation for elements
+            function checkScroll() {
+                const elements = document.querySelectorAll('.about-text, .stat-item, .service-card, .team-member, .game-card, .contact-item');
+                
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Initial check
+            checkScroll();
+            window.addEventListener('scroll', checkScroll);
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mainMenu = document.getElementById('mainMenu');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mainMenu.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mainMenu.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainMenu.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                });
+            });
+            
+            // Button click animations
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.7);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        width: ${size}px;
+                        height: ${size}px;
+                        top: ${y}px;
+                        left: ${x}px;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    // Remove ripple after animation
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Chatbot functionality
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            const openChatbotBtn = document.getElementById('openChatbot');
+            const chatInput = document.getElementById('chatInput');
+            const sendChatBtn = document.getElementById('sendChatBtn');
+            const chatbotMessages = document.getElementById('chatbotMessages');
+            
+            chatbotToggle.addEventListener('click', () => {
+                chatbotWindow.classList.toggle('active');
+            });
+            
+            openChatbotBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                chatbotWindow.classList.add('active');
+            });
+            
+            // Chatbot responses
+            const botResponses = {
+                "hi": "Hello 👋 Welcome to InferLoom! How can I help you today?",
+                "hello": "Hello 👋 Welcome to InferLoom! How can I help you today?",
+                "what services do you offer": "We offer mobile app development, website development, custom software solutions, and AI-powered systems to help businesses grow.",
+                "services": "We specialize in: 📱 Mobile App Development, 🌐 Web Development, ⚙️ Custom Software Solutions, and 🤖 AI-powered systems.",
+                "have you completed any projects": "Yes! We have successfully delivered 7–8 projects including websites, mobile apps, and custom software for our clients.",
+                "projects": "We've completed 7-8 projects for various clients, including business websites, mobile applications, and custom software tools.",
+                "who are you": "InferLoom is a technology company focused on innovation and quality software development. Our goal is to bridge ideas with smart digital solutions.",
+                "about": "InferLoom is a professional software development company with expertise in mobile apps, web development, custom software, and AI solutions. We've delivered 7-8 projects to satisfied clients.",
+                "team": "Our team includes a CEO (Vision Leader), CTO (Technology Expert), Chairman (Business Strategist), and skilled software developers.",
+                "contact": "You can contact us via email at contact@inferloom.com or phone at +1 (555) 123-4567. You can also use the contact form on our website.",
+                "is this ai free": "Yes 😊 Our AI assistant is completely free to help you learn about our company and services.",
+                "price": "Our pricing depends on the project scope and requirements. Please contact us for a custom quote tailored to your needs.",
+                "ai": "We offer AI solutions including smart chatbots, automation tools, and AI-powered features to enhance business operations.",
+                "thanks": "You're welcome! Feel free to ask if you have any other questions.",
+                "thank you": "You're welcome! Let me know if you need more information about our services.",
+                "game": "We have fun interactive games on our website! Try 'Click the Infer Logo' or 'Color Catch Game' in the Games section.",
+                "quote": "You can request a quote by clicking the 'Get a Quote' button or by contacting us directly through the contact form."
+            };
+            
+            function addMessage(text, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+                messageDiv.textContent = text;
+                chatbotMessages.appendChild(messageDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+            
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.innerHTML = '<span></span><span></span><span></span>';
+                typingDiv.id = 'typingIndicator';
+                chatbotMessages.appendChild(typingDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+            
+            function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            function getBotResponse(userMessage) {
+                const lowerMsg = userMessage.toLowerCase().trim();
+                
+                for (const [key, response] of Object.entries(botResponses)) {
+                    if (lowerMsg.includes(key)) {
+                        return response;
+                    }
+                }
+                
+                return "I'm not sure I understand. Could you rephrase that? You can ask about our services, projects, team, or contact information.";
+            }
+            
+            sendChatBtn.addEventListener('click', () => {
+                const userMessage = chatInput.value.trim();
+                if (userMessage) {
+                    addMessage(userMessage, true);
+                    chatInput.value = '';
+                    
+                    // Show typing indicator
+                    showTypingIndicator();
+                    
+                    // Simulate typing delay
+                    setTimeout(() => {
+                        hideTypingIndicator();
+                        const botResponse = getBotResponse(userMessage);
+                        addMessage(botResponse);
+                    }, 1000 + Math.random() * 1000);
+                }
+            });
+            
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendChatBtn.click();
+                }
+            });
+            
+            // Click the Logo Game
+            const startClickGameBtn = document.getElementById('startClickGame');
+            const clickLogo = document.getElementById('clickLogo');
+            const clickScoreDisplay = document.getElementById('clickScore');
+            const clickTimerDisplay = document.getElementById('clickTimer');
+            
+            let clickScore = 0;
+            let clickGameActive = false;
+            let clickTimeLeft = 30;
+            let clickGameInterval;
+            
+            startClickGameBtn.addEventListener('click', () => {
+                if (clickGameActive) return;
+                
+                clickGameActive = true;
+                clickScore = 0;
+                clickTimeLeft = 30;
+                clickScoreDisplay.textContent = `Score: ${clickScore}`;
+                clickTimerDisplay.textContent = `Time: ${clickTimeLeft}s`;
+                startClickGameBtn.textContent = "Game Running...";
+                startClickGameBtn.disabled = true;
+                
+                // Move logo to random position
+                function moveLogo() {
+                    if (!clickGameActive) return;
+                    
+                    const gameArea = document.getElementById('clickGameArea');
+                    const areaRect = gameArea.getBoundingClientRect();
+                    const logoRect = clickLogo.getBoundingClientRect();
+                    
+                    const maxX = areaRect.width - logoRect.width - 20;
+                    const maxY = areaRect.height - logoRect.height - 20;
+                    
+                    const randomX = Math.floor(Math.random() * maxX) + 10;
+                    const randomY = Math.floor(Math.random() * maxY) + 10;
+                    
+                    clickLogo.style.left = `${randomX}px`;
+                    clickLogo.style.top = `${randomY}px`;
+                }
+                
+                // Game timer
+                clickGameInterval = setInterval(() => {
+                    clickTimeLeft--;
+                    clickTimerDisplay.textContent = `Time: ${clickTimeLeft}s`;
+                    
+                    if (clickTimeLeft <= 0) {
+                        clearInterval(clickGameInterval);
+                        clickGameActive = false;
+                        startClickGameBtn.textContent = "Start Game";
+                        startClickGameBtn.disabled = false;
+                        return;
+                    }
+                    
+                    // Move logo every 0.8 seconds
+                    if (clickTimeLeft % 0.8 === 0) {
+                        moveLogo();
+                    }
+                }, 1000);
+                
+                // Initial logo position
+                moveLogo();
+            });
+            
+            clickLogo.addEventListener('click', () => {
+                if (!clickGameActive) return;
+                
+                clickScore++;
+                clickScoreDisplay.textContent = `Score: ${clickScore}`;
+                
+                // Add visual feedback
+                clickLogo.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    clickLogo.style.transform = 'scale(1)';
+                }, 100);
+                
+                // Move logo after click
+                const gameArea = document.getElementById('clickGameArea');
+                const areaRect = gameArea.getBoundingClientRect();
+                const logoRect = clickLogo.getBoundingClientRect();
+                
+                const maxX = areaRect.width - logoRect.width - 20;
+                const maxY = areaRect.height - logoRect.height - 20;
+                
+                const randomX = Math.floor(Math.random() * maxX) + 10;
+                const randomY = Math.floor(Math.random() * maxY) + 10;
+                
+                clickLogo.style.left = `${randomX}px`;
+                clickLogo.style.top = `${randomY}px`;
+            });
+            
+            // Color Catch Game
+            const startCatchGameBtn = document.getElementById('startCatchGame');
+            const catchGameArea = document.getElementById('catchGameArea');
+            const catchScoreDisplay = document.getElementById('catchScore');
+            const catchLivesDisplay = document.getElementById('catchLives');
+            const player = document.getElementById('player');
+            
+            let catchScore = 0;
+            let catchLives = 3;
+            let catchGameActive = false;
+            let playerX = 155;
+            let fallingObjects = [];
+            
+            startCatchGameBtn.addEventListener('click', () => {
+                if (catchGameActive) return;
+                
+                catchGameActive = true;
+                catchScore = 0;
+                catchLives = 3;
+                catchScoreDisplay.textContent = `Score: ${catchScore}`;
+                catchLivesDisplay.textContent = `Lives: ${catchLives}`;
+                startCatchGameBtn.textContent = "Game Running...";
+                startCatchGameBtn.disabled = true;
+                
+                // Clear any existing objects
+                document.querySelectorAll('.falling-object').forEach(obj => obj.remove());
+                fallingObjects = [];
+                
+                // Create falling objects
+                function createFallingObject() {
+                    if (!catchGameActive) return;
+                    
+                    const object = document.createElement('div');
+                    object.className = 'falling-object';
+                    object.style.width = '25px';
+                    object.style.height = '25px';
+                    object.style.borderRadius = '50%';
+                    object.style.position = 'absolute';
+                    object.style.top = '0px';
+                    object.style.transition = 'top 0.05s linear';
+                    
+                    // Randomly decide if it's good (red) or bad (gray)
+                    const isGood = Math.random() > 0.4;
+                    object.style.background = isGood ? 'var(--gradient-red)' : 'linear-gradient(135deg, #666 0%, #888 100%)';
+                    object.dataset.isGood = isGood;
+                    object.dataset.id = Date.now() + Math.random();
+                    
+                    // Random horizontal position
+                    const maxX = catchGameArea.clientWidth - 30;
+                    const randomX = Math.floor(Math.random() * maxX);
+                    object.style.left = `${randomX}px`;
+                    
+                    catchGameArea.appendChild(object);
+                    fallingObjects.push({
+                        id: object.dataset.id,
+                        element: object,
+                        x: randomX,
+                        y: 0,
+                        speed: 2 + Math.random() * 3,
+                        isGood: isGood
+                    });
+                }
+                
+                // Game loop
+                function gameLoop() {
+                    if (!catchGameActive) return;
+                    
+                    // Move all falling objects
+                    fallingObjects.forEach(obj => {
+                        obj.y += obj.speed;
+                        obj.element.style.top = `${obj.y}px`;
+                        
+                        // Check collision with player
+                        if (
+                            obj.y + 25 >= 210 && obj.y <= 250 &&
+                            obj.x + 25 >= playerX && obj.x <= playerX + 40
+                        ) {
+                            // Collision detected
+                            if (obj.isGood) {
+                                catchScore += 10;
+                                catchScoreDisplay.textContent = `Score: ${catchScore}`;
+                                
+                                // Visual feedback
+                                obj.element.style.transform = 'scale(1.5)';
+                                obj.element.style.opacity = '0';
+                                setTimeout(() => {
+                                    if (obj.element.parentNode) {
+                                        obj.element.remove();
+                                    }
+                                }, 300);
+                            } else {
+                                catchLives--;
+                                catchLivesDisplay.textContent = `Lives: ${catchLives}`;
+                                catchLivesDisplay.style.color = catchLives === 1 ? '#ff0000' : 'var(--accent-red)';
+                                
+                                // Visual feedback
+                                obj.element.style.background = '#ff0000';
+                                obj.element.style.transform = 'scale(1.5)';
+                                setTimeout(() => {
+                                    if (obj.element.parentNode) {
+                                        obj.element.remove();
+                                    }
+                                }, 300);
+                                
+                                if (catchLives <= 0) {
+                                    endCatchGame();
+                                    return;
+                                }
+                            }
+                            
+                            // Remove from array
+                            fallingObjects = fallingObjects.filter(o => o.id !== obj.id);
+                        }
+                        
+                        // Remove if out of bounds
+                        if (obj.y > 280) {
+                            if (obj.isGood) {
+                                catchLives--;
+                                catchLivesDisplay.textContent = `Lives: ${catchLives}`;
+                                catchLivesDisplay.style.color = catchLives === 1 ? '#ff0000' : 'var(--accent-red)';
+                                
+                                if (catchLives <= 0) {
+                                    endCatchGame();
+                                    return;
+                                }
+                            }
+                            
+                            if (obj.element.parentNode) {
+                                obj.element.remove();
+                            }
+                            fallingObjects = fallingObjects.filter(o => o.id !== obj.id);
+                        }
+                    });
+                    
+                    requestAnimationFrame(gameLoop);
+                }
+                
+                function endCatchGame() {
+                    catchGameActive = false;
+                    startCatchGameBtn.textContent = "Start Game";
+                    startCatchGameBtn.disabled = false;
+                    fallingObjects.forEach(obj => {
+                        if (obj.element.parentNode) {
+                            obj.element.remove();
+                        }
+                    });
+                    fallingObjects = [];
+                }
+                
+                // Create objects periodically
+                const objectInterval = setInterval(() => {
+                    if (!catchGameActive) {
+                        clearInterval(objectInterval);
+                        return;
+                    }
+                    createFallingObject();
+                }, 800);
+                
+                // Start game loop
+                gameLoop();
+                
+                // End game after 30 seconds
+                setTimeout(() => {
+                    if (catchGameActive) {
+                        endCatchGame();
+                    }
+                }, 30000);
+            });
+            
+            // Player movement for catch game
+            document.addEventListener('keydown', (e) => {
+                if (!catchGameActive) return;
+                
+                const areaRect = catchGameArea.getBoundingClientRect();
+                const playerWidth = 40;
+                
+                if (e.key === 'ArrowLeft' && playerX > 10) {
+                    playerX -= 20;
+                    player.style.left = `${playerX}px`;
+                } else if (e.key === 'ArrowRight' && playerX < areaRect.width - playerWidth - 10) {
+                    playerX += 20;
+                    player.style.left = `${playerX}px`;
+                }
+            });
+            
+            // Contact form submission with animation
+            document.getElementById('contactForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const submitBtn = document.getElementById('submitFormBtn');
+                const originalText = submitBtn.textContent;
+                
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                // Simulate form submission
+                setTimeout(() => {
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+                    submitBtn.style.background = 'linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)';
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        submitBtn.style.background = '';
+                        e.target.reset();
+                        
+                        // Show success message
+                        addMessage("Your message has been sent successfully! We'll get back to you soon.");
+                        chatbotWindow.classList.add('active');
+                    }, 2000);
+                }, 1500);
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Initialize elements as visible if they're already in view
+            checkScroll();
+        });
+    </script>
+</body>
+</html>
